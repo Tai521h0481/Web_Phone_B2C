@@ -379,8 +379,12 @@
             <div class="col-lg-8 col-md-11">
               <div class="d-flex">
                 <div class="me-auto">
-                  <h1 class="display-1 font-weight-bold mt-n4 mb-0">28°C</h1>
-                  <h6 class="text-uppercase mb-0 ms-1">Cloudy</h6>
+                  <h1 id="temp" class="display-1 font-weight-bold mt-n4 mb-0">28°C</h1>
+                  <h5 id="location" class="text-uppercase mb-0 ms-1">Ho Chi Minh city</h5>
+                  <h6 id="feelslike" class="text-uppercase mb-0 ms-1">Feels like: 30°C</h6>
+                  <h6 id="air-quantity" class="text-uppercase mb-0 ms-1">Air Quantity: 30°C</h6>
+                  <h6 id="condition" class="text-uppercase mb-0 ms-1">Cloudy</h6>
+                  <h7 id="date" class="text-uppercase mb-0 ms-1">28/12/2023</h7>
                 </div>
                 <div class="ms-auto">
                   <img class="w-50 float-end mt-lg-n4" src="../assets/img/small-logos/icon-sun-cloud.png" alt="image sun">
@@ -594,6 +598,8 @@
         </div>
       </div>
     </div>
+  </div>
+  <div id="toast">
   </div>
   <!--   Core JS Files   -->
   <script src="/socket.io/socket.io.js"></script>

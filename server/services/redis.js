@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongodb');
 const redis = require('redis');
 
 // Create and configure the Redis client with auto-reconnect
@@ -56,14 +57,18 @@ async function updateUser(updatedUser) {
 }
 
 // Function to save a user by ID
-async function saveUserById(user) {
-    const userJson = JSON.stringify(user);
-    await redis_client.set(user.id, userJson);
+async function saveUserById(id, user) {
+    try {
+        const userJson = JSON.stringify(user);
+        await redis_client.set(id, userJson);
+    } catch (error) {
+        throw new Error(`Error saving user to Redis: ${error.message}`);
+    }
 }
 
 async function getUserById(userId) {
     const userJson = await redis_client.get(userId);
-    return JSON.parse(userJson);
+    return JSON.parse(userJson) ? JSON.parse(userJson) : null;
 }
 
 // Export the functions and Redis client

@@ -101,6 +101,7 @@ document
             button: "OK",
           });
           displayProfile(data.user);
+          user_gobal = data.user;
         }
       });
   });
@@ -162,3 +163,21 @@ document.getElementById("change-pwd-form").addEventListener("submit", function (
       }
     });
 });
+
+const toastSlide = () => {
+  const toatMain = document.getElementById("toast");
+  
+  if (toatMain) {
+    const toast = document.createElement("div");
+    toast.classList.add("toast__item");
+    toast.innerHTML = `
+        <i class="fa-solid fa-circle-exclamation"></i>
+        <span>Chức năng này đang được phát triển, bạn vui lòng thử lại sau !</span>
+    `;
+    toatMain.appendChild(toast);
+    
+    setTimeout(function () {
+      toatMain.removeChild(toast);
+    }, 4000);
+  }
+}

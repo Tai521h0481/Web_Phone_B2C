@@ -37,15 +37,19 @@ io.on('connection', async (socket) => {
     const user = await getUserByToken(token);
     socket.emit('profile', { user });
 
+    const onlineStartTime = new Date();
 
     socket.on('disconnect', async () => {
         console.log('A user disconnected');
 
+        const onlineDurationMillis = new Date() - onlineStartTime;
+        const { hours, minutes } = formatOnlineDuration(onlineDurationMillis);
+        const timeWorked = (hours + minutes / 60).toFixed(2);
         // Check if this is the last open connection of this user
         if (!isUserConnectedOnOtherSockets(user._id, socket.id)) {
             // Update user status to 'offline' in the database
-            const userUpdated = await updateUserStatus(user._id, 'offline');
-            await saveUserById(userUpdated);
+            const userUpdated = await updateUserStatus(user._id, 'offline', timeWorked);
+            await saveUserById(user._id, userUpdated);
         }
     });
 })
@@ -57,4 +61,18 @@ function isUserConnectedOnOtherSockets(userId, currentSocketId) {
         }
     }
     return false;
+}
+
+function formatOnlineDuration(durationInMillis) {
+    const millisecondsPerMinute = 60 * 1000;
+    const millisecondsPerHour = 60 * millisecondsPerMinute;
+
+    // Calculate hours and remaining milliseconds
+    const hours = Math.floor(durationInMillis / millisecondsPerHour);
+    const remainingMillis = durationInMillis % millisecondsPerHour;
+
+    // Calculate minutes
+    const minutes = Math.round(remainingMillis / millisecondsPerMinute);
+
+    return { hours, minutes };
 }
