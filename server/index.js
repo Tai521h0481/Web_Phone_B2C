@@ -48,8 +48,7 @@ io.on('connection', async (socket) => {
         // Check if this is the last open connection of this user
         if (!isUserConnectedOnOtherSockets(user._id, socket.id)) {
             // Update user status to 'offline' in the database
-            const userUpdated = await updateUserStatus(user._id, 'offline', timeWorked);
-            await saveUserById(user._id, userUpdated);
+            await updateUserStatus(user._id, 'offline', timeWorked);
         }
     });
 })

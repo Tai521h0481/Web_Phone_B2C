@@ -6,6 +6,7 @@ const {authenticate} = require("../middlewares/authenticate");
 
 userRouter.get("/", getCachedUsers, userController.getAllUsers);
 userRouter.get("/profile", authenticate, userController.getProfile);
+userRouter.get("/getTopTimeWorked", userController.getTop6UsersByTimeWorked);
 userRouter.get("/:id", authenticate, userController.getUserById);
 userRouter.post("/", userController.createUser);
 userRouter.patch("/change-password", authenticate, userController.changePassword);

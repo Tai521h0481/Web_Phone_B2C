@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const {JWT_SECRET} = process.env;
 const {User} = require('../models');
 const {ObjectId} = require('mongodb');
-const {saveUserById, getUserById} = require('../services/redis');
+const {saveUserById, getUserById, updateUser} = require('../services/redis');
 
 const getUserByToken = async (token) => {
     try {
@@ -44,7 +44,7 @@ const updateUserStatus = async (id, status, timeWorked = 0) => {
             { new: true }
         ).select("-password");
         await saveUserById(id, user);
-        return user;
+        await updateUser(user);
     } catch (error) {
         throw new Error(`Error updating user status: ${error.message}`);
     }

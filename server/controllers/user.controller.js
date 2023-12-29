@@ -7,7 +7,7 @@ const {cacheUsers,addUser,deleteUser,updateUser, saveUserById } = require('../se
 module.exports = {
     async getAllUsers(req, res) {
         try {
-            const users = await User.find().select('-password');
+            const users = await User.find({role: "salesperson"}).select('-password');
             await cacheUsers(users);
             res.status(200).json({
                 code: 200,
@@ -162,6 +162,21 @@ module.exports = {
                 code: 200,
                 message: 'Change password successfully',
                 user
+            });
+        } catch (error) {
+            res.status(500).json({
+                code: 500,
+                message: 'Internal server error'
+            });
+        }
+    },
+    async getTop6UsersByTimeWorked (req, res) {
+        try {
+            const users = await User.find({role: "salesperson"}).sort({ timeWorked: -1 }).limit(6).select('-password'); 
+            res.status(200).json({
+                code: 200,
+                message: 'Get top 6 users by time worked successfully',
+                users
             });
         } catch (error) {
             res.status(500).json({

@@ -52,7 +52,7 @@ async function deleteUser(userId) {
 async function updateUser(updatedUser) {
     const usersJson = await redis_client.get('all_users');
     let users = usersJson ? JSON.parse(usersJson) : [];
-    users = users.map(user => user._id === updatedUser._id ? updatedUser : user);
+    users = users.map(user => user._id === updatedUser.id ? updatedUser : user);
     await redis_client.set('all_users', JSON.stringify(users));
 }
 
